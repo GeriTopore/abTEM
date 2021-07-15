@@ -1177,7 +1177,7 @@ class PotentialArray(AbstractPotential, HasGridMixin):
                 f.create_dataset('slice_thicknesses', data=self._slice_thicknesses)
                 f.create_dataset('extent', data=self.extent)
         elif format == "hspy":
-            self.to_hyperspy.save(path, **kwargs)
+            self.to_hyperspy().save(path, **kwargs)
         else:
             raise ValueError('Format must be one of "hdf5" or "hspy"')
 
