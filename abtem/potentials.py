@@ -1161,19 +1161,25 @@ class PotentialArray(AbstractPotential, HasGridMixin):
         self._slice_thicknesses = self._slice_thicknesses[::-1]
         return self
 
-    def write(self, path):
+    def write(self, path, format="hdf5", **kwargs):
         """
-        Write potential to file.
-
-        Parameters
-        ----------
+        Write potential to a hdf5 file.
         path: str
-            Path to which the data is saved.
+            The path to write the file.
+        format: str
+            One of ["hdf5", "hspy"]
+        kwargs:
+            Any of the additional parameters for saving a hyperspy dataset
         """
-        with h5py.File(path, 'w') as f:
-            f.create_dataset('array', data=self.array)
-            f.create_dataset('slice_thicknesses', data=self._slice_thicknesses)
-            f.create_dataset('extent', data=self.extent)
+        if format == "hdf5":
+            with h5py.File(path, 'w') as f:
+                f.create_dataset('array', data=self.array)
+                f.create_dataset('slice_thicknesses', data=self._slice_thicknesses)
+                f.create_dataset('extent', data=self.extent)
+        elif format == "hspy":
+            self.to_hyperspy.save(path, **kwargs)
+        else:
+            raise ValueError('Format must be one of "hdf5" or "hspy"')
 
     @classmethod
     def read(cls, path):
