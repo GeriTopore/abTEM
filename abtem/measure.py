@@ -718,11 +718,11 @@ class Measurement(AbstractMeasurement):
                              "units": i.units,
                              "name": i.name,
                              "size": size})
-        if len(signal_shape) == 3:
-            # This could change depending on the type of measurement
-            sig = Signal1D(self.array, axes=axes)
-        else:
-            sig = Signal2D(self.array, axes=axes)
+        # if len(signal_shape) == 3:
+        #     # This could change depending on the type of measurement
+        #     sig = Signal1D(self.array, axes=axes)
+        # else:
+        sig = Signal2D(self.array, axes=axes)
         if signal_type is not None:
             sig.set_signal_type(signal_type)
         return sig
